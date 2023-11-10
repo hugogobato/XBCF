@@ -292,7 +292,15 @@ class XBCF(object):
 
         from math import log
 
-        if self.params["no_split_penality"] < 0:
+	try:
+		no_split_penalty = int(self.params["no_split_penality"])
+        except ValueError:
+    # Handle the case where the conversion is not possible
+    # For example, you could set it to a default integer value or raise an exception
+		no_split_penalty = 0 # or some other default integer value
+    # raise ValueError(f"Expected an integer for 'no_split_penality', got {self.params['no_split_penality']}")
+    
+         if no_split_penalty < 0.00001:
             self.params["no_split_penality"] = log(self.params["num_cutpoints"])
 
     def __convert_params_check_types(self, **params):
